@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition>
+
+        <div class="icon-selector-wrapper">
+            <!-- 
+                setDataValue():     Pass the selected icon name to the backing bean via the hidden input field
+                setSelectedIcon():  Display the selected icon via the graphicImage control
+            -->
+            <script type="text/javascript">
+                function setDataValue(value) {
+                    PF('selectedIconText').jq.val(value);
+                }
+                function setSelectedIcon(value) {
+                    var currImg = $('.icon-selector-selected-icon');
+                    currImg.attr("src", value);
+                }
+            </script>
+
+            <!--
+                    Selected icon
+            -->
+            <div  class="icon-selector-selected-icon-banner" >
+                <h:graphicImage id="selectedIconId"  library="icon" name="#{data.value}" 
+                                styleClass="icon-selector-selected-icon" />  
+            </div>
+            <!--
+                    Hidden input field to carry selection value
+            -->
+            <p:inputText id="selectedIconTextId"  value="#{data.value}" readonly="false" widgetVar="selectedIconText"
+                         styleClass="icon-selector-hidden-input"/>  
+            <!--
+                    Icon display area
+
+            <pe:fluidGrid id="iconDisplayGridId" widgetVar="iconDisplayGrid" 
+                          value="#{componentEditBean.availableIconImages}" var="icon" 
+                          hasImages="true"  resizeBound="false">  
+
+                <pe:fluidGridItem >
+                    <h:graphicImage library="icon" name="#{icon}" alt="#{icon}" title="#{icon}"
+                                    onclick="setDataValue(this.alt);
+                                            setSelectedIcon(this.src);" 
+                                    styleClass="icon-selector-list-icon"/>  
+                </pe:fluidGridItem>   
+            </pe:fluidGrid>
+            -->
+            <!--
+                    Icon display area
+            -->
+            <h:panelGroup>
+                <ui:repeat value="#{componentEditBean.availableIconImages}" var="icon" >
+                    <h:graphicImage library="icon" name="#{icon.data}" alt="#{icon.data}" title="#{icon.data}"
+                                    onclick="setDataValue(this.alt);
+                                            setSelectedIcon(this.src);" 
+                                    styleClass="icon-selector-list-icon"/>   
+                </ui:repeat>
+            </h:panelGroup>
+        </div>
+    </ui:composition>
+</html>
+
+

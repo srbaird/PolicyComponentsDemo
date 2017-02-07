@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" >
+
+
+    <ui:composition>
+
+        <h:panelGroup layout="block" id="contentTreeTablePanel">
+
+            assignment-selection-treetable
+
+            <p:treeTable id="assignmentSelectionTreeTableId" styleClass="assignment-selection-treetable"
+                         value="#{data.tableController.model}" resizableColumns="true" 
+                         var="treeNode" 
+                         selectionMode="single" selection="#{data.tableController.selectedNode}">  
+
+                <!-- Add entity component as attribute for menu button -->
+                <f:attribute name="#{DataConstants.COMPONENT_ENTITY_ATTRIBUTE}" value="#{treeNode.display}" />     
+                <!-- 
+                    No dynamic columns facility exists for TreeTable so this work around is a temporary solution
+                    An outstanding issue(http://code.google.com/p/primefaces/issues/detail?id=2055) exists for this
+                -->
+                <p:columns value="#{data.tableController.columnList}" var="column" headerText="#{column.header}">
+                    <h:panelGroup >
+                        
+                        <p:graphicImage library="icon" name="#{treeNode.getIconUrl((column.property))}"
+                                        style="margin-right: 2px;" 
+                                        rendered="#{treeNode.getIconUrl((column.property)) != null}"/>
+                        <h:outputText value="#{treeNode.getAttribute((column.property))}" 
+                                      converter="dynamicColumnConverter"/>
+                    </h:panelGroup>
+                </p:columns>
+
+            </p:treeTable>
+        </h:panelGroup>
+
+    </ui:composition>
+</html>
+
+

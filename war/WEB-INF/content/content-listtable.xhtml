@@ -1,0 +1,121 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition>
+
+        <div class="content-listtable-wrapper content-table-wrapper">
+
+            <h:panelGroup layout="block" id="contentListTable">
+
+                <p:dataTable id="contentListTableId" var="row" value="#{tableListBean.model}"  
+                             resizableColumns="true"  styleClass="content-listtable content-table content-table-table" rowKey="#{row.display.id}"
+                             selection="#{tableListBean.selectedNode}" selectionMode="single" 
+                             emptyMessage="#{tableListBean.emptyMessage}">    
+                    <!--
+                       Toggle button to show additional assignment display
+                    -->
+                    <p:column style="width: 8px" styleClass="content-listtable-toggle content-table-button-toggle" rendered="#{tableListBean.renderMenu}">  
+                        <!--
+                        <p:rowToggler rendered="#{row.display.assignments.rowCount > 0}"/>  
+                        -->
+                        <p:rowToggler rendered="true"/>  
+                    </p:column>  
+                    <!--
+                        Column model:
+                    -->
+                    <p:columns value="#{tableListBean.columnList}"  id="columnFunc" styleClass="content-listtable-content content-table-table-row"
+                               var="column" columnIndexVar="colIndex" sortBy="#{row.getAttribute((column.property))}" 
+                               sortFunction="#{tableListBean.parseSortFunction(sortFunction)}">  
+
+                        <f:facet name="header">  
+                            #{column.header} 
+                        </f:facet>  
+
+                        <p:commandLink  action="#{navigationBean.handleComponentNavigation}" style="display:block;"
+                                        ajax="false" rendered="#{column.isDataLink()}">
+
+                            <p:graphicImage id="linkThumbnailId" value="#{graphicsBean.thumbnailStreamedComponent}" 
+                                            styleClass="thumbnail-image"
+                                            rendered="#{row.isImage((column.property))}">
+                                <f:param name="#{DataConstants.COMPONENT_ENTITY_ATTRIBUTE_ID}" value="#{row.display.id}" />  
+                            </p:graphicImage>
+
+                            <p:graphicImage library="icon" name="#{row.getIconUrl((column.property))}" style="margin-right: 2px;" 
+                                          rendered="#{!row.getIconUrl((column.property)).isEmpty() and row.isImage((column.property))}"/>
+
+                            <h:outputText value="#{row.getAttribute((column.property))}" 
+                                          converter="imageColumnConverter"
+                                          rendered="#{!row.isImage((column.property))}"/>
+
+                            <f:attribute name="#{DataConstants.COMPONENT_ENTITY_ATTRIBUTE}" value="#{row.display}" />   
+
+
+                        </p:commandLink>
+
+                        <h:panelGroup rendered="#{!column.isDataLink()}">
+
+                            <p:graphicImage id="nonLinkThumbnailId" value="#{graphicsBean.thumbnailStreamedComponent}" 
+                                            styleClass="thumbnail-image"
+                                            rendered="#{row.isImage((column.property))}">
+                                <f:param name="#{DataConstants.COMPONENT_ENTITY_ATTRIBUTE_ID}" value="#{row.display.id}" />   
+                            </p:graphicImage>
+
+                            <p:graphicImage library="icon" name="#{row.getIconUrl((column.property))}" style="margin-right: 2px;" 
+                                            rendered="#{!row.getIconUrl((column.property)).isEmpty() and row.isImage((column.property))}"/>
+
+                            <h:outputText value="#{row.getAttribute((column.property))}" 
+                                          converter="imageColumnConverter"
+                                          rendered="#{!row.isImage((column.property))}"/>
+                        </h:panelGroup>
+
+                    </p:columns>                  
+                    <!--
+                        Row level menu: Have to use the inline style element here to override the 0px width on Chrome & Torch
+                    -->
+                    <p:column  style="width: 8px;"  styleClass="data-content-table-menu-button" rendered="#{tableListBean.renderMenu}">   
+                        <p:menuButton  value="" model="#{row.menuModel}" styleClass="content-table-button-menu" >  
+                            <f:attribute name="#{DataConstants.COMPONENT_ENTITY_ATTRIBUTE}" value="#{row.display}" />   
+                        </p:menuButton>  
+                    </p:column>  
+                    <!--
+                        Additional assignment display: To do: Change this to all non-reverse, non-hierarchy assignments
+                    -->
+                    <p:rowExpansion styleClass="content-table-expansion"   >  
+                        <!--
+                        <p:dataGrid  value="#{row.display.assignments}"  columns="4"
+                                     var="iterator" >  
+    
+                                    <ui:include src="index-list-assignment-display-content.xhtml" />
+    
+                        </p:dataGrid>
+                        -->
+                    </p:rowExpansion>  
+
+
+                </p:dataTable>  
+            </h:panelGroup>
+            <!--
+            Table level menu
+            <p:contextMenu id="contentListTableContextMenu" for="contentListTable" rendered="#{tableListBean.renderMenu}"
+                           model="#{tableListBean.contextMenuModel}"/>
+
+            -->
+            <!--
+               Table blocker
+            <p:blockUI block="contentListTable" trigger="contentListTableContextMenu" rendered="#{tableListBean.renderBlocker}">  
+            #{bundle.BusyLoadingIndicator}<br />  
+            <p:graphicImage name="ajax-loader-24.gif" library="img" />
+        </p:blockUI>  
+            -->
+            <!--
+                Handle menu button icon
+            <ui:include src="../jquery/data-menubutton-icon.xhtml" />
+            -->
+        </div>
+    </ui:composition>
+</html>
+
+

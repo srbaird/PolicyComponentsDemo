@@ -1,0 +1,141 @@
+
+
+/**********************
+        My Stuff
+**********************/   
+*[role="article"] {
+    position: static;
+}
+
+
+/*********************
+     TYPOGRAPHY
+*********************/
+* {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+/*********************
+        LINKS
+*********************/
+
+a {
+    white-space: nowrap;
+}
+
+a:link {
+    font-weight: bold;
+    text-decoration: none;
+    color: #A2BF95;
+    padding: 0 1px;
+}
+
+a:visited {
+    font-weight: bold;
+    text-decoration: none;
+
+}
+
+a:hover {
+    padding: 0 1px;
+    text-decoration: underline;
+}
+
+a:active {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+/**************************
+     LAYOUT
+**************************/
+
+body {
+    background: none;
+    margin: 0;
+    padding: 0;
+    min-width: 1024px;
+    min-height: 660px;   
+}
+
+dl {
+    padding: 0;
+    margin: 0;
+}
+/**************************
+     HEADER
+**************************/
+
+.page-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: #887E86 url(../img/logo_106px.jpg) no-repeat top left; 
+    height: 106px;
+    min-width: 1024px;
+    width: 100%;
+    border-bottom:thick solid #A2BF95;
+}
+
+.page-header-centre {
+    position: relative;
+    top: 20px;
+    left: 0;
+    margin-left: 400px;
+    padding: 0;
+}
+.page-header-right {
+    position: relative;
+    top: 20px;
+    left: 0;
+    margin-left: 1200px;
+    padding: 0;
+}
+
+.page-content {
+    
+    margin-top: 106px;
+    min-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+    display: box;
+}
+
+.content-centre {
+    position: relative;
+    top: 20px;
+    left: 0;
+    padding: 0;
+}
+
+.content-centre-content {
+    position: relative;
+    top: 20px;
+    left: 0;
+    margin-left: 200px;
+    padding: 0;
+}
+
+.account_form_panelX {
+    position: absolute;
+    top: 10px;
+    left: 304px;
+    padding: 0;
+    width: 400px;
+    height: 594px;
+}
+
+.account_form_panel h1{
+    padding-top: 5px;
+    font-size: large;
+}
+
+.header_form_panel a:link {
+
+    color: #FFFFFF; 
+}
+

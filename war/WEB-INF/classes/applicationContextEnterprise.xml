@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="false" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd" 
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache">
+
+    <!--
+        *********************************************************************
+        Entity Class utilities. Shared across all applications
+        *********************************************************************
+    -->
+    <!-- Session listener --> 
+    <bean id="sessionListener" class="com.bac.gapolicywebapp.control.SessionListener" lazy-init="false" />
+
+    <!-- Faces Utilities -->
+    <bean id="facesUtilities" class="com.bac.entitycomponentwebapp.application.faces.DefaultFacesUtilities" init-method="init"/>
+    
+    <!-- Converter used in web pages -->
+    <bean id="dynamicColumnConverter" class="com.bac.entitycomponentwebapp.application.faces.model.DynamicColumnConverter"/>
+    
+    <!-- Relationship policy -->
+    <bean id="relationshipPolicy" class="com.bac.entitycomponent.policy.DefaultRelationshipPolicy">
+        <property name="nodeRelationshipResolver" ref="nodeRelationshipResolver"/> 
+        <property name="dataTypeResolver" ref="dataTypeResolver"/> 
+    </bean>
+    
+    <!-- Data Type Resolver -->
+    <bean id="dataTypeResolver" class="com.bac.entitycomponent.entity.DefaultDataTypeResolver" />
+    
+    <!-- Node Property Resolver -->
+    <bean id="nodePropertyResolver" class="com.bac.journalentitycomponent.entity.JournalNodePropertyResolver" />
+    
+    <!-- Node Relationship Resolver -->
+    <bean id="nodeRelationshipResolver" class="com.bac.entitycomponent.entity.DefaultNodeRelationshipResolver" />
+    
+    <!--        
+        ***************************************************************************************************************
+        Column Model Attribute Accessor Factory settings: Used to control the displayed columns in list and tree tables 
+        ***************************************************************************************************************
+    -->
+    <bean id="defaultColumnModelAttributeAccessorFactory" class="com.bac.entitycomponentwebapp.application.faces.model.DefaultColumnModelAttributeAccessorFactory" 
+          init-method="init">
+        <property name="defaultAccessor" value="defaultColumnModelAttributeAccessor"/>
+        <property name="facesUtilities" ref="facesUtilities"/>
+    </bean>
+    
+    <bean id="defaultColumnModelAttributeAccessor" class="com.bac.entitycomponentwebapp.application.faces.model.DefaultColumnModelAttributeAccessor" 
+          scope="prototype"/>
+    
+    <!--        
+        **********************************************************************************************
+        Entity Component Display Proxy Factory settings: All proxy display components are created here 
+        **********************************************************************************************
+    -->
+    <bean id="display" class="com.bac.entitycomponentwebapp.entity.display.Display" lazy-init="false" >
+        <property name="entityComponentDisplayProxyFactory" ref="defaultEntityComponentDisplayProxyFactory"/>         
+    </bean>
+
+    <!-- Default Entity Component Display Proxy Factory -->
+    <bean id="defaultEntityComponentDisplayProxyFactory" class="com.bac.entitycomponentwebapp.entity.display.DefaultEntityComponentDisplayProxyFactory" >
+        <property name="applicationIconFactory" ref="applicationIconFactory"/>       
+        <property name="defaultEntityComponentDisplayProxy" value="defaultEntityComponentDisplayProxy"/>
+        <property name="entityComponentDisplayProxyMap" ref="entityComponentDisplayDatatypeProxyMap"/>
+        <property name="facesUtilities" ref="facesUtilities"/>
+    </bean>
+    <!-- End of Default Entity Component Display Proxy Factory -->
+
+    <bean id="entityComponentDisplayDatatypeProxyMap" class="org.springframework.beans.factory.config.MapFactoryBean" >
+        <property name="targetMapClass">
+            <value>java.util.HashMap</value>
+        </property>
+        <property name="sourceMap">
+            <map>
+                <entry key="#{dataTypeResolver.valueOf('ENTITY_COMPONENT_CLASS')}" value="classEntityComponentDisplayProxy"/>
+            </map>
+        </property>
+    </bean>
+    
+    <!-- List of Bean definitions for the Display Proxies -->
+    <bean id="defaultEntityComponentDisplayProxy" class="com.bac.entitycomponentwebapp.entity.display.EntityComponentDisplayProxy" scope="prototype" />
+    <bean id="classEntityComponentDisplayProxy" class="com.bac.policyapplication.entity.display.PolicyComponentDisplayProxy" scope="prototype" /> 
+ 
+    <!-- Icon Factory. Set the location and datatype -> icon name mapping here -->
+    <bean id="applicationIconFactory" class="com.bac.entitycomponentwebapp.entity.display.DefaultApplicationIconFactory" >
+        <property name="facesUtilities" ref="facesUtilities"/>
+        <property name="iconResourcesLocation" value="/resources/img"/>
+        <property name="majorIconMapping">
+            <map>
+                <entry key="#{dataTypeResolver.valueOf('ENTITY_COMPONENT_CLASS')}" value="Policy.png"/>                                                                
+                <entry key="#{dataTypeResolver.valueOf('INLINE_NOTE')}" value="Note.png"/>    
+                <entry key="#{dataTypeResolver.valueOf('IMAGE_COMPONENT')}" value="Photo.png"/>                       
+                <entry key="#{dataTypeResolver.valueOf('PLANNER_EVENT')}" value="Planner.png"/>     
+                <entry key="#{dataTypeResolver.valueOf('AGGREGATION_TAG')}" value="Sum.png"/>                  
+                <entry key="#{dataTypeResolver.valueOf('TAG')}" value="Tag.png"/>                  
+                <entry key="#{dataTypeResolver.valueOf('PLANT')}" value="Plant.png"/>         
+                <entry key="#{dataTypeResolver.valueOf('PROPAGATION')}" value="Propagation.png"/>                   
+                <entry key="#{dataTypeResolver.valueOf('LOCATION')}" value="Location.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('TEMPERATURE_RECORD')}" value="Temperature.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('PICTURE_GALLERY')}" value="Gallery.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('PDF_DOCUMENT')}" value="PDF.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('DIARY')}" value="Diary.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('NOTE')}" value="Note.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('HARVEST')}" value="Harvest.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('COST')}" value="Money.png"/>               
+            </map>
+        </property>
+        <property name="minorIconMapping">
+            <map>
+                <entry key="#{dataTypeResolver.valueOf('ENTITY_COMPONENT_CLASS')}" value="Policy-16.png"/>                                                                
+                <entry key="#{dataTypeResolver.valueOf('INLINE_NOTE')}" value="Note-16.png"/>    
+                <entry key="#{dataTypeResolver.valueOf('IMAGE_COMPONENT')}" value="Photo-16.png"/>                       
+                <entry key="#{dataTypeResolver.valueOf('PLANNER_EVENT')}" value="Planner-16.png"/>    
+                <entry key="#{dataTypeResolver.valueOf('AGGREGATION_TAG')}" value="Sum-16.png"/>                  
+                <entry key="#{dataTypeResolver.valueOf('TAG')}" value="Tag-16.png"/>     
+                <entry key="#{dataTypeResolver.valueOf('PLANT')}" value="Plant-16.png"/>         
+                <entry key="#{dataTypeResolver.valueOf('PROPAGATION')}" value="Propagation-16.png"/>                   
+                <entry key="#{dataTypeResolver.valueOf('LOCATION')}" value="Location-16.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('TEMPERATURE_RECORD')}" value="Temperature-16.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('PICTURE_GALLERY')}" value="Gallery-16.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('PDF_DOCUMENT')}" value="PDF-16.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('DIARY')}" value="Diary-16.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('NOTE')}" value="Note-16.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('HARVEST')}" value="Harvest-16.png"/>               
+                <entry key="#{dataTypeResolver.valueOf('COST')}" value="Money-16.png"/>                   
+            </map>
+        </property>
+    </bean>
+   
+</beans>

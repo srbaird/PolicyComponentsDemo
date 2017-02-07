@@ -1,0 +1,462 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05-Feb-2015, 11:35:11
+    Author     : user0001
+*/
+/* 
+    Components
+*/
+/* 
+    Domain variables
+*/
+.thumbnail-image {
+  display: block;
+  margin: 0 auto;
+  background: white;
+  padding: 2px;
+  border: 2px solid black; }
+
+.content-table-button-toggle .ui-button, .content-table-button-menu .ui-button {
+  border: 0;
+  background: transparent; }
+.content-table-button-toggle .ui-button-icon-left, .content-table-button-menu .ui-button-icon-left {
+  left: 0; }
+.content-table-button-toggle .ui-menubutton .ui-state-default, .content-table-button-menu .ui-menubutton .ui-state-default {
+  margin: 0;
+  box-shadow: none; }
+
+.content-table-button-toggle .ui-icon-circle-triangle-e {
+  background-position: -32px -16px; }
+.content-table-button-toggle .ui-icon-circle-triangle-s {
+  background-position: -64px -16px; }
+
+.content-table-button-menu .ui-icon-triangle-1-s {
+  background-position: -192px -112px;
+  margin-left: -4px !important; }
+
+.ui-tree .ui-treenode-label {
+  width: 90%;
+  padding: 1px 0px 2px 0px; }
+
+.ui-tree .ui-treenode-label.ui-state-hover {
+  background: rgba(218, 228, 234, 0.7); }
+
+.ui-tree .ui-treenode-label.ui-state-highlight {
+  background: #dae4ea;
+  color: black; }
+
+.content-table tr th {
+  background: #bed5bd !important;
+  text-decoration: none;
+  font-weight: bold; }
+  .content-table tr th:not(:first-child):not(:last-child) {
+    border-left: 2px solid rgba(255, 255, 255, 0.6); }
+.content-table tbody, .content-table tbody td, .content-table tr, .content-table td {
+  border: 0;
+  background: transparent; }
+.content-table-table tr.ui-state-hover {
+  background: rgba(218, 228, 234, 0.7);
+  border: 0; }
+.content-table-table tr.ui-state-highlight {
+  background: #dae4ea;
+  border: 0; }
+.content-table-table td.content-table-table-row {
+  border-bottom: 1px solid lightgray; }
+.content-table-treetable .ui-widget-content {
+  background: transparent; }
+.content-table-treetable tr.ui-state-hover {
+  background: rgba(218, 228, 234, 0.4);
+  border: 0; }
+.content-table-treetable tr.ui-state-highlight {
+  background: #dae4ea;
+  border: 0; }
+
+.icon-selector-hidden-input {
+  visibility: hidden;
+  height: 0px; }
+
+.icon-selector-selected-icon-banner {
+  background: #dae4ea;
+  height: 24px; }
+
+.icon-selector-selected-icon {
+  padding: 4px;
+  min-height: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  vertical-align: middle; }
+
+.icon-selector-list-icon {
+  padding: 4px;
+  border: 1px solid transparent;
+  float: left; }
+  .icon-selector-list-icon:hover {
+    border: 1px solid lightgrey; }
+
+.component-header-panel .ui-breadcrumb {
+  border: 0;
+  background: transparent; }
+  .component-header-panel .ui-breadcrumb .ui-menuitem-text {
+    font-size: 12px; }
+  .component-header-panel .ui-breadcrumb li:nth-child(2) {
+    visibility: hidden;
+    width: 0px; }
+  .component-header-panel .ui-breadcrumb li:nth-child(3) .ui-menuitem-text {
+    font-style: italic; }
+    .component-header-panel .ui-breadcrumb li:nth-child(3) .ui-menuitem-text:after {
+      content: "\00a0 "; }
+  .component-header-panel .ui-breadcrumb li.ui-breadcrumb-chevron.ui-icon-triangle-1-e {
+    background-position: -32px -32px; }
+.component-header-panel .component-header-title-wrapper {
+  padding: 4px 0px 6px 18px; }
+  .component-header-panel .component-header-title-wrapper .ui-outputlabel, .component-header-panel .component-header-title-wrapper img {
+    vertical-align: middle; }
+
+.component-images-panel .component-images-panel-thumbnail {
+  width: 108px;
+  float: left; }
+  .component-images-panel .component-images-panel-thumbnail.ui-panel {
+    margin: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px; }
+    .component-images-panel .component-images-panel-thumbnail.ui-panel:hover {
+      border: 1px solid rgba(0, 0, 0, 0.5); }
+  .component-images-panel .component-images-panel-thumbnail .ui-panel-titlebar {
+    padding: 0;
+    background: transparent;
+    border: 0; }
+    .component-images-panel .component-images-panel-thumbnail .ui-panel-titlebar .ui-panel-title {
+      height: 0px;
+      margin: 0; }
+    .component-images-panel .component-images-panel-thumbnail .ui-panel-titlebar .ui-panel-titlebar-icon {
+      border: 0;
+      background: transparent;
+      cursor: pointer; }
+  .component-images-panel .component-images-panel-thumbnail .ui-widget-content, .component-images-panel .component-images-panel-thumbnail .ui-panel-content {
+    height: 116px;
+    padding: 0; }
+    .component-images-panel .component-images-panel-thumbnail .ui-widget-content img, .component-images-panel .component-images-panel-thumbnail .ui-panel-content img {
+      display: block;
+      margin: 0 auto;
+      position: relative;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%); }
+    .component-images-panel .component-images-panel-thumbnail .ui-widget-content a, .component-images-panel .component-images-panel-thumbnail .ui-panel-content a {
+      padding: 0; }
+.component-images-panel .component-image-gallery-viewer {
+  width: 100%;
+  height: 100%;
+  padding: 0; }
+  .component-images-panel .component-image-gallery-viewer.ui-dialog {
+    box-shadow: unset;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 0;
+    border: 0; }
+  .component-images-panel .component-image-gallery-viewer .ui-dialog-titlebar {
+    height: 0;
+    visibility: hidden; }
+  .component-images-panel .component-image-gallery-viewer.ui-widget-content {
+    border: 0; }
+  .component-images-panel .component-image-gallery-viewer.ui-shadow {
+    box-shadow: 0; }
+  .component-images-panel .component-image-gallery-viewer .component-image-gallery-image-switch-item {
+    width: 1048px; }
+    .component-images-panel .component-image-gallery-viewer .component-image-gallery-image-switch-item .component-image-gallery-image {
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
+      max-height: 700px;
+      max-width: 1024px;
+      display: block;
+      margin: 0 auto; }
+    .component-images-panel .component-image-gallery-viewer .component-image-gallery-image-switch-item .component-image-gallery-image-text-panel {
+      position: absolute;
+      bottom: 10px;
+      left: 340px;
+      right: 340px;
+      min-height: 80px;
+      display: block;
+      background: rgba(64, 64, 64, 0.6);
+      /* Old browsers */
+      background: -moz-linear-gradient(left, rgba(64, 64, 64, 0.6) 0%, rgba(64, 64, 64, 0.3) 50%, rgba(64, 64, 64, 0.6) 100%);
+      /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(64, 64, 64, 0.6)), color-stop(50%, rgba(64, 64, 64, 0.3)), color-stop(100%, rgba(64, 64, 64, 0.6)));
+      /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(left, rgba(64, 64, 64, 0.6) 0%, rgba(64, 64, 64, 0.3) 50%, rgba(64, 64, 64, 0.6) 100%);
+      /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(left, rgba(64, 64, 64, 0.6) 0%, rgba(64, 64, 64, 0.3) 50%, rgba(64, 64, 64, 0.6) 100%);
+      /* Opera 11.10+ */
+      background: -ms-linear-gradient(left, rgba(64, 64, 64, 0.6) 0%, rgba(64, 64, 64, 0.3) 50%, rgba(64, 64, 64, 0.6) 100%);
+      /* IE10+ */
+      background: linear-gradient(to right, rgba(64, 64, 64, 0.6) 0%, rgba(64, 64, 64, 0.3) 50%, rgba(64, 64, 64, 0.6) 100%);
+      /* W3C */
+      padding-left: 4px; }
+    .component-images-panel .component-image-gallery-viewer .component-image-gallery-image-switch-item .component-image-gallery-image-text {
+      text-align: left;
+      color: white;
+      font-weight: bold;
+      padding: 6px; }
+  .component-images-panel .component-image-gallery-viewer .component-image-gallery-navigation {
+    margin: 0 auto;
+    position: relative;
+    top: 42px;
+    z-index: 2048;
+    background: rgba(228, 228, 228, 0.5); }
+    .component-images-panel .component-image-gallery-viewer .component-image-gallery-navigation img {
+      opacity: 0.5;
+      margin: 0px 8px; }
+
+/* 
+    Login page
+*/
+.login-page {
+  background: transparent url(../resources/img/login_body_background.png) repeat top right; }
+  .login-page .login_panel.ui-panel {
+    background: transparent;
+    border: none;
+    font-size: small;
+    float: right; }
+    .login-page .login_panel.ui-panel label {
+      background: transparent;
+      font-size: small;
+      color: white !important; }
+  .login-page .login-page-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: #887E86 url(../resources/img/logo_106px.jpg) no-repeat top left;
+    height: 106px;
+    min-width: 1024px;
+    width: 100%;
+    border-bottom: thick solid #A2BF95; }
+
+.login-page-content {
+  margin-top: 106px;
+  min-width: 1024px;
+  margin-left: auto;
+  margin-right: auto; }
+  .login-page-content .login-splash {
+    box-shadow: 5px 5px 3px 1px #606060;
+    margin-top: 6px;
+    margin-left: 12px;
+    float: left; }
+  .login-page-content .account_form_panel {
+    margin-top: 6px;
+    margin-left: 194px;
+    width: 366px;
+    height: 550px;
+    /* Send the button to the bottom of the form */ }
+    .login-page-content .account_form_panel .ui-panel-content.ui-widget-content {
+      height: 100%; }
+    .login-page-content .account_form_panel .account_form_panel_h1 {
+      font-size: large;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-weight: bold; }
+    .login-page-content .account_form_panel.ui-panel {
+      background: transparent url(../resources/img/linedpaper.png) repeat top right;
+      box-shadow: -5px 5px 3px 1px #606060;
+      border: none;
+      font-size: small; }
+    .login-page-content .account_form_panel .ui-panel-content {
+      margin-top: 24px;
+      margin-left: 24px; }
+    .login-page-content .account_form_panel .account_form_table tr td {
+      height: 47.5px; }
+    .login-page-content .account_form_panel .two_button_grid {
+      height: 100%; }
+
+/* 
+    Content navigation page
+*/
+/* 
+    Domain variables
+*/
+.panel-layout-navigation.ui-widget-content {
+  border: 0;
+  padding: 0px 0px 0px 2px; }
+
+.content-navigation-panel {
+  background: -moz-linear-gradient(top, #ecf3ec 0%, rgba(133, 178, 211, 0) 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ecf3ec), color-stop(100%, rgba(133, 178, 211, 0)));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ecf3ec 0%, rgba(133, 178, 211, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ecf3ec 0%, rgba(133, 178, 211, 0) 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ecf3ec 0%, rgba(133, 178, 211, 0) 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ecf3ec 0%, rgba(133, 178, 211, 0) 100%);
+  /* W3C */ }
+  .content-navigation-panel.ui-widget-content, .content-navigation-panel .ui-widget-content {
+    border: 0; }
+  .content-navigation-panel .ui-tree {
+    background: transparent;
+    border: 0;
+    width: 240px; }
+  .content-navigation-panel .ui-treeselectable {
+    display: block; }
+  .content-navigation-panel .ui-panel-titlebar {
+    border: 0;
+    background: transparent; }
+    .content-navigation-panel .ui-panel-titlebar .ui-panel-title {
+      font-size: larger; }
+    .content-navigation-panel .ui-panel-titlebar .ui-panel-titlebar-icon {
+      float: left;
+      background: transparent;
+      border: 0;
+      margin-right: 8px; }
+  .content-navigation-panel a {
+    color: darkslategray;
+    display: block; }
+
+.content-header-panel .ui-panel {
+  background: transparent;
+  border: none;
+  font-size: small; }
+.content-header-panel img.header-logo {
+  margin-right: 24px;
+  margin-left: 10px; }
+.content-header-panel tr td:not(:first-child):hover {
+  background: rgba(218, 228, 234, 0.4); }
+.content-header-panel tr td:not(:first-child):not(:last-child) {
+  border-right: 2px solid rgba(255, 255, 255, 0.4); }
+.content-header-panel a {
+  padding: 2px 8px;
+  display: block;
+  color: whitesmoke;
+  font-size: 12px !important; }
+  .content-header-panel a:hover {
+    text-decoration: none;
+    color: white; }
+  .content-header-panel a img {
+    margin-right: 4px;
+    width: auto;
+    height: auto;
+    vertical-align: middle; }
+
+/* 
+    Component edit dialog
+*/
+/* 
+    Domain variables
+*/
+.ui-dialog.edit-component-dialog {
+  padding: 4px; }
+
+.edit-component-dialog table.edit-component-dialog-dynamic-form {
+  width: 100%; }
+.edit-component-dialog .edit-component-dialog-dynamic-form .pe-dynaform-grid {
+  margin-left: auto;
+  margin-right: auto; }
+.edit-component-dialog .edit-component-dialog-dynamic-form .pe-dynaform-cell {
+  padding-top: 12px;
+  vertical-align: baseline; }
+.edit-component-dialog .edit-component-dialog-dynamic-form .pe-dynaform-label {
+  text-align: left;
+  padding: 2px 20px 0 0; }
+.edit-component-dialog .edit-component-dialog-dynamic-form td.pe-dynaform-cell-first,
+.edit-component-dialog .edit-component-dialog-dynamic-form td.pe-dynaform-label,
+.edit-component-dialog .edit-component-dialog-dynamic-form td.pe-dynaform-cell.edit-dialog-content-editor {
+  padding-left: 8px; }
+.edit-component-dialog .edit-component-dialog-dynamic-form td.pe-dynaform-cell-first {
+  max-width: 40%;
+  width: 50%; }
+.edit-component-dialog .edit-component-dialog-dynamic-form .pe-dynaform-cell.separator {
+  padding: 10px 0 10px 0; }
+.edit-component-dialog .edit-component-dialog-dynamic-form .pe-dynaform-cell.calendar .ui-inputfield,
+.edit-component-dialog .edit-component-dialog-dynamic-form .pe-dynaform-cell.calendar .ui-datepicker-trigger,
+.edit-component-dialog .edit-component-dialog-dynamic-form .edit-dialog-output .ui-inputfield {
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  background: inactiveborder;
+  height: auto; }
+.edit-component-dialog .edit-component-dialog-panel,
+.edit-component-dialog .edit-component-dialog-form,
+.edit-component-dialog .edit-component-dialog-dynamic-form {
+  height: 100%; }
+.edit-component-dialog .edit-component-dialog-dynamic-form tr:nth-last-of-type(2) {
+  height: 100%; }
+  .edit-component-dialog .edit-component-dialog-dynamic-form tr:nth-last-of-type(2) .content-table-wrapper {
+    height: 100%;
+    position: relative; }
+    .edit-component-dialog .edit-component-dialog-dynamic-form tr:nth-last-of-type(2) .content-table-wrapper .ui-datatable-tablewrapper,
+    .edit-component-dialog .edit-component-dialog-dynamic-form tr:nth-last-of-type(2) .content-table-wrapper .ui-tree {
+      overflow-y: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0px  4px; }
+.edit-component-dialog .pe-dynaform-buttonbar-bottom {
+  height: 40px;
+  padding-right: 10px;
+  padding-bottom: 16px;
+  background: lightgrey;
+  vertical-align: bottom; }
+  .edit-component-dialog .pe-dynaform-buttonbar-bottom .edit-dialog-auto-assign {
+    vertical-align: middle;
+    text-align: left;
+    padding-left: 8px;
+    float: left; }
+  .edit-component-dialog .pe-dynaform-buttonbar-bottom .ui-button {
+    width: 80px;
+    height: 30px; }
+  .edit-component-dialog .pe-dynaform-buttonbar-bottom .ui-messages {
+    width: 80%; }
+.edit-component-dialog .ui-widget-content {
+  border: 0; }
+.edit-component-dialog .content-table .content-table-table-row {
+  width: auto !important; }
+.edit-component-dialog .ui-tree {
+  width: auto; }
+.edit-component-dialog .edit-dialog-image {
+  display: block;
+  margin: 0 auto;
+  background: white;
+  padding: 2px;
+  border: 2px solid black;
+  max-height: 190px;
+  max-width: 300px; }
+.edit-component-dialog .edit-dialog-content-editor .ui-editor {
+  border: 1px solid darkgray; }
+.edit-component-dialog .ui-messages.ui-widget {
+  text-align: left; }
+.edit-component-dialog .ui-messages-error, .edit-component-dialog ui-message-error {
+  border: 0;
+  color: red;
+  background: -moz-linear-gradient(left, rgba(212, 119, 56, 0.5) 0%, rgba(35, 32, 24, 0) 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(212, 119, 56, 0.5)), color-stop(100%, rgba(35, 32, 24, 0)));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, rgba(212, 119, 56, 0.5) 0%, rgba(35, 32, 24, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, rgba(212, 119, 56, 0.5) 0%, rgba(35, 32, 24, 0) 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(left, rgba(212, 119, 56, 0.5) 0%, rgba(35, 32, 24, 0) 100%);
+  /* IE10+ */
+  background: linear-gradient(to right, rgba(212, 119, 56, 0.5) 0%, rgba(35, 32, 24, 0) 100%);
+  /* W3C */ }
+
+.panel-layout-header .ui-layout-unit-content {
+  background: transparent url(../resources/img/login_body_background.png) repeat top right; }
+.panel-layout-header .ui-panel {
+  background: transparent;
+  border: none;
+  font-size: small; }
+.panel-layout-header.ui-layout-unit {
+  padding: 0;
+  border: 0; }
+
+/*# sourceMappingURL=application.css.map */

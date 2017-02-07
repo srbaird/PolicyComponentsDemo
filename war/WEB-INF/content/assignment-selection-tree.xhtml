@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" >
+
+
+    <ui:composition>
+        <div class="content-listtable-wrapper content-table-wrapper">
+            
+            <h:panelGroup layout="block" id="contentTreeTablePanel">
+
+                <p:tree id="assignmentSelectionTreeId" value="#{data.tableController.model}" 
+                        var="treeNode"  dynamic="true" cache="false"
+                        selectionMode="single" selection="#{data.tableController.selectedNode}"> 
+
+                    <!-- Allow for selection validation 
+                    <p:ajax event="select"
+                            update=":componentEditFormId:dynamicEditComponentForm:editDialogSubmitButton"/>
+                    -->
+
+                    <p:treeNode type="#{DataConstants.NAVIGATION_CONTEXT_MENU_NODE_TYPE}" >  
+
+                        <h:panelGroup >
+                            <p:graphicImage library="icon" name="#{treeNode.display.displayIcon}" />
+                            <h:outputText value=" #{treeNode.display}" />
+                            <f:attribute name="#{DataConstants.COMPONENT_ENTITY_ATTRIBUTE}" value="#{treeNode.display}" />   
+                        </h:panelGroup>
+                    </p:treeNode>  
+
+                </p:tree>  
+
+            </h:panelGroup>
+        </div>
+    </ui:composition>
+</html>
+
+

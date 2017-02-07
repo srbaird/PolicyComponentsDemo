@@ -1,0 +1,193 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions" >
+
+    <ui:composition >
+
+        <p:dialog   id="editDialog" widgetVar="editComponentDialog" dynamic="false"
+                    draggable="false" width="550" height="550" minimizable="false" modal="false"
+                    position="26,26" closeOnEscape="true"
+                    styleClass="edit-component-dialog edit-component-dialog-refresh" 
+                    binding="#{componentEditBean.binding}">  
+
+            <p:ajax  event="close" resetValues="true" update="editDialog"/>
+
+
+            <f:facet name="header">   
+                <h:graphicImage id="editComponentDialogHeaderImage" library="icon" name="#{componentEditBean.dialogHeaderIconUrl}" />                
+                <h:outputText id="editComponentDialogHeaderText"  value=" #{componentEditBean.dialogHeader}" />
+            </f:facet>
+
+
+            <!--
+                    Dynamic form built from bean model
+                    **********************************
+            -->
+            <h:panelGroup id="dynamicFormGroup" layout="block" styleClass="edit-component-dialog-panel" >  
+
+                <h:form id="componentEditFormId" styleClass="edit-component-dialog-form">
+                    <!--            
+                                    Start of dynamic form
+                                    ********************
+                    -->
+                    <pe:dynaForm id="dynamicEditComponentForm" value="#{componentEditBean.model}" var="data"   
+                                 openExtended="true" widgetVar="dynamicEditComponentFormWidget"                                   
+                                 styleClass="edit-component-dialog-dynamic-form" >
+
+
+                        <f:facet name="headerRegular">  
+                            <!--            
+                                    Display the image if the component has one
+                                    ******************************************
+                            -->
+                            <p:graphicImage id="imageId" cache="false" styleClass="edit-dialog-image" 
+                                            value="#{componentEditBean.imageStreamedComponent}" 
+                                            rendered="#{componentEditBean.imageComponent}"   >
+                                <f:param name="#{DataConstants.COMPONENT_ENTITY_ATTRIBUTE_ID}" value="#{componentEditBean.editComponent.id}" />   
+                            </p:graphicImage>
+
+                        </f:facet>  
+                        <!--            
+                                                Calendar selection date
+                        -->
+                        <pe:dynaFormControl type="date" for="calendar" styleClass="calendar">  
+                            <p:calendar id="calendar" value="#{data.value}" required="#{data.mandatory}" 
+                                        pattern="#{data.pattern}" mode="popup" showOn="button" readonlyInput="true"/>   
+                        </pe:dynaFormControl>  
+                        <!--            
+                                                Boolean choice                                
+                        -->
+                        <pe:dynaFormControl type="booleanchoice">  
+                            <p:selectBooleanCheckbox value="#{data.value}"  
+                                                     style="vertical-align:middle;"/>  
+                        </pe:dynaFormControl>  
+                        <!--
+                                                Text input
+                                                **********                    
+                        -->
+                        <pe:dynaFormControl type="textinput" for="text">  
+                            <p:inputText id="text" value="#{data.value}" required="#{data.mandatory}"/>
+                        </pe:dynaFormControl>  
+                        <!--
+                                                Text output
+                                                ***********                    
+                        -->
+                        <pe:dynaFormControl type="textoutput" for="outputText" styleClass="edit-dialog-output">  
+                            <p:inputText id="outputText" value="#{data.value}" readonly="true"
+                                         styleClass="edit-dialog-output"/>  
+                        </pe:dynaFormControl>  
+                        <!--            
+                                                Numeric input
+                                                *************
+                        -->                
+                        <pe:dynaFormControl type="numericinput" for="numeric">  
+                            <p:inputText id="numeric" value="#{data.value}" required="#{data.mandatory}"    
+                                         converterMessage="#{data.convertorMessage}">
+                                <f:converter converterId="javax.faces.Double"  />
+                            </p:inputText>
+                        </pe:dynaFormControl> 
+                        <!--            
+                                                Temperature input
+                                                *****************
+                        -->                
+                        <pe:dynaFormControl type="temperature" for="numericTo100">  
+                            <p:inputText id="numericTo100" value="#{data.value}" required="#{data.mandatory}"    
+                                         validatorMessage="#{data.validatorMessage}"
+                                         converterMessage="#{data.convertorMessage}">
+                                <f:converter converterId="javax.faces.Double"  />
+                                <f:validateDoubleRange minimum="-99.9" maximum="99.9" for="numericTo100"/>
+                            </p:inputText>
+                        </pe:dynaFormControl> 
+                        <!--            
+                                                Single selection
+                                                ****************
+                        -->    
+                        <pe:dynaFormControl type="singleselection" for="selection" styleClass="select">  
+                            <h:selectOneMenu id="selection" value="#{data.value}" required="#{data.mandatory}"
+                                             converter="#{data.convertor}">  
+                                <f:selectItems value="#{data.selectionList}"/>  
+                            </h:selectOneMenu>  
+                        </pe:dynaFormControl>  
+                        <!--            
+                                                Note input
+                                                **********
+                        --> 
+                        <pe:dynaFormControl type="noteinput" for="textarea">  
+                            <p:inputTextarea id="textarea" value="#{data.value}" 
+                                             required="#{data.mandatory}" 
+                                             rows="6" cols="52" autoResize="true" style="display:block;"/>  
+                        </pe:dynaFormControl>  
+                        <!--            
+                                                Note content input
+                                                ******************
+                        --> 
+                        <pe:dynaFormControl type="contentinput" for="contenteditor" styleClass="edit-dialog-content-editor" >  
+                            <p:editor id="contenteditor" value="#{data.value}"  width="500" height="150"
+                                      required="#{data.mandatory}"/>  
+                        </pe:dynaFormControl>  
+                        <!--            
+                                                Selection List Table    for="selectionListTable" 
+                                                ********************
+                        -->    
+                        <pe:dynaFormControl type="tableselection" 
+                                            styleClass="assignment-selection-listtable">  
+                            <!--
+                                    Alias the bean to the content table controller
+                            -->
+                            <ui:param name="tableListBean" value="#{data.tableController}" />
+                            <ui:param name="sortFunction" value="data.tableController.tableSort" />
+                            <ui:include src="content-listtable.xhtml"  />
+                        </pe:dynaFormControl>  
+                        <!--            
+                                                Selection Tree Table
+                                                ********************
+                        Using a tree here instead of the tree table which does not have a configurable
+                        column model yet (as at PF5.1). this appears to be imminent (PF 5.2)
+                        -->    
+                        <pe:dynaFormControl type="treeselection" for="selectionTreeTable" 
+                                            styleClass="assignment-selection-tree">                              
+                            <ui:include src="assignment-selection-tree.xhtml" />
+                        </pe:dynaFormControl>  
+                        <!--            
+                                                Icon Selector Grid
+                                                ******************
+                        -->    
+                        <pe:dynaFormControl type="iconselector" styleClass="assignment-icon-selector">                              
+                            <ui:include src="icon-selector.xhtml" />
+                        </pe:dynaFormControl>  
+                        <!--            
+                                                Button bar
+                                                **********
+                        --> 
+                        <f:facet name="buttonBar">  
+                            <p:messages id="messages" showSummary="true"/>  
+                            <p:selectBooleanCheckbox itemLabel="Auto assign to index element" 
+                                                     styleClass="edit-dialog-auto-assign" disabled="true"/>  
+                            <p:commandButton id="editDialogSubmitButton" value="#{bundle.DialogOKButton}" icon="ui-icon-check"  
+                                             actionListener="#{componentEditBean.handleEditComponentUpdate}" 
+                                             update="messages"   
+                                             oncomplete="if (args &amp;&amp; !args.validationFailed) PF('editComponentDialog').hide()"
+                                             process="dynamicEditComponentForm" partialSubmit="false" disabled="#{componentEditBean.updateDisabled}">  
+                            </p:commandButton>
+                            <p:commandButton id="editDialogClearButton" value="#{bundle.DialogCancelButton}" icon="ui-icon-close"
+                                             type="reset"
+                                             onclick="PF('editComponentDialog').hide();" />
+                        </f:facet> 
+
+                        <p:blockUI block="editComponentPanel" trigger="editDialogSubmitButton">  
+                            #{bundle.BusyUpdatingIndicator}<br />  
+                            <p:graphicImage value="resources/img/ajax-loader-24.gif"/>  
+                        </p:blockUI>  
+
+                    </pe:dynaForm>
+                </h:form>
+            </h:panelGroup>  
+        </p:dialog>      
+
+    </ui:composition>
+</html>
+
+

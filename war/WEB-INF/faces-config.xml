@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.1"
+              xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+
+
+    <application>
+        <!-- 
+                Set the resource bundle
+        -->
+        <resource-bundle>
+            <base-name>GAPolicyWebAppBundle</base-name>
+            <var>bundle</var>
+        </resource-bundle>
+        <!-- 
+                Spring EL resolver
+        -->    
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <variable-resolver>org.springframework.web.jsf.SpringBeanVariableResolver</variable-resolver>
+        <el-resolver>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver</el-resolver>
+        <!-- 
+                Required for dialog handling
+        --> 
+        <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+        <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+        <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+    </application>
+    
+    <!--
+            Delgate phase listener events to implementers. 
+    -->
+     <lifecycle>
+         <phase-listener>org.springframework.web.jsf.DelegatingPhaseListenerMulticaster</phase-listener>
+     </lifecycle>
+
+    <!--
+        Phase listener. 
+
+    <lifecycle>
+        <phase-listener>com.bac.gapolicywebapp.control.ApplicationPhaseListener</phase-listener>
+    </lifecycle>
+    -->
+    <!--
+        Column value converter. Has to be defined here for some reason
+    -->
+    <converter>
+        <converter-id>dynamicColumnConverter</converter-id>
+        <converter-class>com.bac.entitycomponentwebapp.application.faces.model.DynamicColumnConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>imageColumnConverter</converter-id>
+        <converter-class>com.bac.policyapplication.application.faces.model.ImageColumnConverter</converter-class>
+    </converter>
+    <!--
+        Primefaces Ajax exception handler
+    -->
+    <factory>
+        <exception-handler-factory>
+            org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
+
+</faces-config>

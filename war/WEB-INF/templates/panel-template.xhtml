@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+    <f:view contentType="text/html" transient="true">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <title>
+                <ui:insert name="title" />
+            </title>
+            <h:outputStylesheet library="css" name="style.css" /> 
+            <link rel="shortcut icon" type="image/png" href="resources/img/bacfavicon.png" />
+            <link rel="icon" type="image/png" href="resources/img/bacfavicon.png" />
+        </h:head>
+
+        <h:body class="page-wrapper">
+
+            <!-- Set the CSS file -->
+            <f:facet name="last">
+                <!--            <h:outputStylesheet library="css" name="journal.css"  />    -->
+                <!--            <h:outputStylesheet library="css" name="application.css"  />    -->
+                <h:outputStylesheet library="css" name="application.css"  />
+            </f:facet>
+            <!--
+            Set the data constants
+            -->
+            <pe:importConstants className="com.bac.entitycomponentwebapp.domain.DataConstants" var="DataConstants" />  
+
+
+            <!--
+                Include the component edit dialog
+            -->
+            <ui:include src="../content/component-edit-dialog.xhtml" />
+
+            <p:layout fullPage="true" styleClass="panel-layout">
+
+                <p:layoutUnit position="north" size="38" resizable="false" closable="false" collapsible="false"
+                              styleClass="panel-layout-header">  
+                    <ui:insert name="header"  />
+                </p:layoutUnit>  
+
+                <p:layoutUnit position="west" size="270"  resizable="true" styleClass="panel-layout-navigation">
+                    <ui:insert name="navigation" />
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" resizable="true" styleClass="panel-layout-content" >
+                    <ui:insert name="content" />
+                </p:layoutUnit>
+                <!-- 
+                    Potentially define the right panel rather than leave it to the content definition
+                -->
+            </p:layout>
+
+        </h:body>
+    </f:view>
+</ui:composition>
+

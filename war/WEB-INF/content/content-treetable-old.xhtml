@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <ui:composition>
+
+        <div class="content-table-wrapper">
+
+            <h:panelGroup layout="block" id="contentListTreePanel">
+
+                <p:treeTable id="contentTreeTableId" styleClass="content-treetable content-table content-table-treetable" 
+                             value="#{treeTableBean.model.root}" resizableColumns="true" 
+                             var="treeNode" emptyMessage="No components to display: Right click and select 'New' to create"
+                             selectionMode="single" selection="#{treeTableBean.selectedNode}">  
+
+                    <!-- Add entity component as attribute for menu button -->
+                    <f:attribute name="#{DataConstants.COMPONENT_ENTITY_ATTRIBUTE}" value="#{treeNode.display}" />   
+                    <!-- 
+                        No dynamic columns facility exists for TreeTable so this work around is a temporary solution
+                        An outstanding issue(http://code.google.com/p/primefaces/issues/detail?id=2055) exists for this
+                        10-Jan-2015 Looks like dynamic columns will be available in PF 5.2
+                    -->
+                    <c:forEach var="column" items="#{treeTableBean.columnList}" varStatus="status"  >
+
+                        <p:column  >
+                            <f:facet name="header">  
+                                #{column.header}  
+                            </f:facet>  
+
+                            <p:commandLink  action="#{journalMenuActionHandlerBean.handleComponentNavigation}" style="display:block;"
+                                            ajax="false" rendered="#{column.isDataLink()}">
+                                <p:graphicImage library="icon" name="#{treeNode.getIconUrl((column.property))}" style="margin-right: 2px;" 
+                                                rendered="#{!treeNode.getIconUrl((column.property)).isEmpty()}"/>
+                                <h:outputText value="#{treeNode.getAttribute((column.property))}" converter="dynamicColumnConverter" />
+                                <f:attribute name="#{DataConstants.COMPONENT_ENTITY_ATTRIBUTE}" value="#{treeNode.display}" />  
+                            </p:commandLink>
+                            <h:panelGroup rendered="#{!column.isDataLink()}">
+                                <p:graphicImage library="icon" name="#{treeNode.getIconUrl((column.property))}" style="margin-right: 2px;" 
+                                                rendered="#{!treeNode.getIconUrl((column.property)).isEmpty()}"/>
+                                <h:outputText value="#{treeNode.getAttribute((column.property))}" 
+                                              converter="dynamicColumnConverter"/>
+                            </h:panelGroup>
+                        </p:column>
+                    </c:forEach>
+                    <!--
+                        Row level menu: Have to use the inline style element here to override the 0px width on Chrome & Torch
+                    -->
+                    <p:column  style="width: 8px" styleClass="data-content-table-menu-button" >   
+                        <p:menuButton  value=""  model="#{treeNode.menuModel}"  rendered="#{treeNode.hasMenuModel()}"
+                                       styleClass="content-table-button-menu" >  
+                            <f:attribute name="#{applicationController.componentEntityAttribute}" value="#{treeNode.display}" />
+                        </p:menuButton>  
+                    </p:column>  
+                    <!--
+                        Ensure that expanded items have the correct menu button icon
+                    <p:ajax event="expand" oncomplete="setButtonIcon();" /> 
+                    -->
+                </p:treeTable>
+            </h:panelGroup>
+
+            <!--
+            Tree level menu
+            -->
+            <p:contextMenu id="contentTreeTableContextMenu" for="contentListTreePanel" 
+                           model="#{treeTableBean.contextMenuModel}" rendered="#{treeTableBean.contextMenuModel != null}"/>
+            <!--
+               Tree blocker
+            -->
+            <p:blockUI block="contentListTreePanel" trigger="contentTreeTableContextMenu">  
+                #{bundle.BusyLoadingIndicator}<br />  
+                <p:graphicImage name="ajax-loader-24.gif" library="img" />
+            </p:blockUI> 
+            <!--
+                Handle menu button icon
+            <ui:include src="../jquery/data-menubutton-icon.xhtml" />
+            -->
+        </div>
+    </ui:composition>
+
+</html>
+
+

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util" 
+       xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd" 
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"> 
+
+
+    <!--        
+        ***************************************************************************************************
+        Policy Bean. Controls assignment policy web page
+        ***************************************************************************************************
+    --> 
+    <bean id="policyBean" class="com.bac.policyapplication.application.faces.PolicyBean"
+          init-method="init">
+        <property name="dataTypeResolver" ref="dataTypeResolver"/>
+        <property name="dataAccessor" ref="applicationDataAccessor"/>  
+        <property name="facesUtilities" ref="facesUtilities"/>  
+        <property name="relationshipPolicy" ref="relationshipPolicy"/>          
+        <property name="tableControllerFactory" ref="policyTableControllerBeanFactory"/>         
+    </bean>
+    
+    <!-- Register the policy bean for model update events -->
+    <bean id="registerPolicyBeanToDataAccessor" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"
+          lazy-init="false">
+        <property name="targetObject" ref="applicationDataAccessor" />
+        <property name="targetMethod" value="addListener" />
+        <property name="arguments">
+            <list>
+                <ref bean="policyBean"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Register the policy bean for policy action processor events -->
+    <bean id="registerPolicyBeanToActionProcessor" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"
+          lazy-init="false">
+        <property name="targetObject" ref="policyActionProcessor" />
+        <property name="targetMethod" value="addListener" />
+        <property name="arguments">
+            <list>
+                <ref bean="policyBean"/>
+            </list>
+        </property>
+    </bean>
+    <!--        
+        ***************************************************************************************************
+        Policy Menu Action Bean. Handles all menu action requests
+        ***************************************************************************************************
+    --> 
+    <bean id="policyMenuActionBean" class="com.bac.policyapplication.application.faces.PolicyMenuActionHandlerBean" 
+          init-method="init" >
+        <property name="actionProcessor" ref="policyActionProcessor"/>
+        <property name="dataTypeResolver" ref="dataTypeResolver"/>
+        <property name="facesUtilities" ref="facesUtilities"/>    
+    </bean>
+    
+    <!-- Policy Session controller-->
+    <bean id="policySessionController" class="com.bac.policyapplication.application.faces.PolicySessionController" 
+          init-method="init" >
+        <property name="facesUtilities" ref="facesUtilities"/>  
+        <property name="dao" ref="policyDao"/> 
+    </bean>
+    
+    <!-- Policy DAO Service-->
+    <bean id="policyComponentDAOService" class="com.bac.policyapplication.data.DefaultPolicyComponentDAOService" lazy-init="false" >
+        <property name="sessionController" ref="policySessionController"/> 
+    </bean>
+    
+    <!-- Application Data Accessor-->
+    <bean id="applicationDataAccessor" class="com.bac.entitycomponentwebapp.data.DefaultApplicationDataAccessor" init-method="init" >
+        <property name="daoService" ref="policyComponentDAOService"/> 
+    </bean>
+    
+    <!-- Policy Bean Table Controller Factory:  Generate table controller depending on Data Type -->   
+    <bean id="policyTableControllerBeanFactory" class="com.bac.policyapplication.application.faces.DefaultContentTableControllerFactory"  >
+        <property name="defaultBeanName" value="policyBeanTableController"/>
+        <property name="facesUtilities" ref="facesUtilities"/> 
+    </bean>
+    
+    <!-- Policy Bean Table Controller -->
+    <bean id="policyBeanTableController" class="com.bac.entitycomponentwebapp.application.faces.DefaultContentTableController" 
+          scope="prototype"    >
+        <property name="componentMenuProvider" ref="policyMenuController"/> 
+        <property name="facesUtilities" ref="facesUtilities"/> 
+        <property name="listTableModelFactory" ref="policyListModelFactory"/> 
+    </bean>
+    
+    <!-- Policy List model Factory-->
+    <bean id="policyListModelFactory" class="com.bac.entitycomponentwebapp.application.faces.model.DefaultListModelFactory"  >
+        <property name="relationshipPolicy" ref="relationshipPolicy"/> 
+        <property name="facesUtilities" ref="facesUtilities"/> 
+        <property name="defaultListTreeModel" value="policyListTreeModel"/> 
+        <property name="defaultListTableModel" value="policyListTableModel"/> 
+    </bean>
+    
+    <!-- Policy List Tree Model -->
+    <bean id="policyListTreeModel" class="com.bac.policyapplication.application.faces.model.PolicyListTreeModel" init-method="init" >
+        <property name="columnModelAttributeAccessorFactory" ref="defaultColumnModelAttributeAccessorFactory"/>  
+        <property name="dataTypeResolver" ref="dataTypeResolver"/>
+    </bean>
+    
+    <!-- Policy List Table Model -->
+    <bean id="policyListTableModel" class="com.bac.policyapplication.application.faces.model.PolicyListTableModel" 
+          init-method="init" scope="prototype">
+        <property name="columnModelAttributeAccessorFactory" ref="defaultColumnModelAttributeAccessorFactory"/>  
+    </bean>
+
+    <!-- Policy Menu Controller:  Provide menu items to components-->
+    <bean id="policyMenuController" class="com.bac.policyapplication.application.faces.PolicyMenuController" init-method="init">
+        <property name="actionResolver" ref="policyActionResolver"/>
+        <property name="dataTypeResolver" ref="dataTypeResolver"/>
+        <property name="menuHandlerBeanName" value="policyMenuActionBean"/>
+        <property name="nodeRelationshipResolver" ref="nodeRelationshipResolver"/> 
+        <property name="sessionController" ref="policySessionController"/> 
+        <property name="relationshipPolicy" ref="relationshipPolicy"/>    
+    </bean>
+        
+    <!-- Policy Session Controller -->
+    <bean id="policyActionResolver" class="com.bac.policyapplication.application.PolicyActionResolver" />
+    
+    <!-- Action Processor: Handle all application actions or forward them to the appropriate request responder  -->
+    <bean id="policyActionProcessor" class="com.bac.policyapplication.application.PolicyActionProcessor" init-method="init" >
+        <property name="accessorFactory" ref="editFormAccessorBeanFactory"/>  
+        <property name="dataAccessor" ref="applicationDataAccessor"/>  
+        <property name="dataTypeResolver" ref="dataTypeResolver"/>
+        <property name="nodeRelationshipResolver" ref="nodeRelationshipResolver"/>
+        <property name="relationshipPolicy" ref="relationshipPolicy"/>  
+        <property name="sessionController" ref="policySessionController"/>  
+        <property name="tableController" ref="policyActionProcessorTableController"/>
+    </bean>
+    
+    <!-- Edit/Assignment Bean Table Controller-->
+    <bean id="policyActionProcessorTableController" class="com.bac.policyapplication.application.faces.TempDialogContentTableController"  >
+        <property name="facesUtilities" ref="facesUtilities"/> 
+        <property name="listTableModelFactory" ref="policyAssignmentListModelFactory"/> 
+        <property name="renderBlocker" value="false"/> 
+        <property name="renderMenu" value="false"/> 
+    </bean>  
+      
+    
+    <!-- Policy Assignment List model Factory. Supply the map to force the factory to generate a table model-->
+    <bean id="policyAssignmentListModelFactory" class="com.bac.entitycomponentwebapp.application.faces.model.DefaultListModelFactory"  >
+        <property name="relationshipPolicy" ref="relationshipPolicy"/> 
+        <property name="facesUtilities" ref="facesUtilities"/> 
+        <property name="dialogListModelMap">       
+            <map>     
+                <entry value="policyListTableModel">
+                    <key>
+                        <util:constant static-field="com.bac.entitycomponent.entity.EntityComponentDataType.ENTITY_COMPONENT_CLASS"/>
+                    </key>
+                </entry>
+            </map>
+        </property>  
+        <property name="listModelMap">       
+            <map>     
+                <entry value="policyListTableModel">
+                    <key>
+                        <util:constant static-field="com.bac.entitycomponent.entity.EntityComponentDataType.ENTITY_COMPONENT_CLASS"/>
+                    </key>
+                </entry>
+            </map>
+        </property>      
+    </bean>
+
+</beans>

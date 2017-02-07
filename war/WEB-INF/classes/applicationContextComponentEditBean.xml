@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd 
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:util="http://www.springframework.org/schema/util">
+    
+
+    <!--        
+        *******************************************************************************************************
+        Component Edit Bean. Form to poplulate Entity Component Node properties
+        *******************************************************************************************************
+    --> 
+    <bean id="componentEditBean" class="com.bac.policyapplication.application.faces.ComponentEditBean"
+          init-method="init" >
+        <property name="actionProcessor" ref="policyActionProcessor"/>
+        <property name="actionResolver" ref="policyActionResolver"/>
+        <property name="applicationDataAccessor" ref="applicationDataAccessor"/>        
+        <property name="dataTypeResolver" ref="dataTypeResolver"/>
+        <property name="facesUtilities" ref="facesUtilities"/>   
+        <property name="iconFactory" ref="applicationIconFactory"/>  
+        <property name="relationshipPolicy" ref="relationshipPolicy"/>  
+        <property name="sessionController" ref="policySessionController"/>                
+        <property name="dialogTableControllerFactory" ref="dialogTableControllerBeanFactory"/>     
+        <!-- Map the node property to the relevant edit form control -->
+        <property name="controlMap">
+            <map/>
+        </property>
+        <!-- Map the node property to the relevant control convertor message -->
+        <property name="convertorMap">
+            <map/>
+        </property>
+        <!-- Map the node property to the relevant pattern formatter -->
+        <property name="patternMap">
+            <map/>
+        </property>
+        <!-- List of properties span more than one column -->
+        <property name="extendedRowList">
+            <list/>
+        </property>
+        <!-- Set default values for Node Property -->
+        <property name="defaultValueMap">
+            <map/>
+        </property>
+        <!-- Map the node properties that should appear on the same row in the form -->
+        <property name="sameRowMap">
+            <map/>
+        </property>
+    </bean>
+    
+    <!-- Register the component edit bean for policy action processor events -->
+    <bean id="registerComponentEditBeanToActionProcessor" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"
+          lazy-init="false">
+        <property name="targetObject" ref="policyActionProcessor" />
+        <property name="targetMethod" value="addListener" />
+        <property name="arguments">
+            <list>
+                <ref bean="componentEditBean"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Dialog Table Bean Factory:  Generate table controller depending on Data Type-->   
+    <bean id="dialogTableControllerBeanFactory" class="com.bac.policyapplication.application.faces.DialogContentTableControllerFactory"  >
+        <property name="defaultBeanName" value="policyDialogContentTableController"/>
+        <property name="facesUtilities" ref="facesUtilities"/> 
+    </bean>
+    
+    <!-- Default Dialog Table Controller-->
+    <bean id="policyDialogContentTableController" class="com.bac.policyapplication.application.faces.TempDialogContentTableController"
+          scope="prototype">
+        <property name="facesUtilities" ref="facesUtilities"/> 
+        <property name="listTableModelFactory" ref="policyAssignmentListModelFactory"/> 
+        <property name="renderBlocker" value="false"/> 
+        <property name="renderMenu" value="false"/> 
+    </bean>  
+        
+    <!-- Edit Form Accessor Bean Factory:  Generate form accessor depending on Field Type-->
+    <bean id="editFormAccessorBeanFactory" class="com.bac.policyapplication.entity.accessor.EditFormAccessorBeanFactory"  >
+        <property name="defaultBeanName" value="defaultEditFormAccessor"/> 
+        <property name="facesUtilities" ref="facesUtilities"/> 
+        <property name="beanDataTypeMap">       
+            <map>    
+                <entry value="selectionEditFormAccessor">
+                    <key>
+                        <util:constant static-field="com.bac.policyapplication.entity.accessor.EditFormAccessor.FieldType.SELECTION"/>
+                    </key>
+                </entry> 
+                <entry value="tableEditFormAccessor">
+                    <key>
+                        <util:constant static-field="com.bac.policyapplication.entity.accessor.EditFormAccessor.FieldType.TABLE"/>
+                    </key>
+                </entry>
+            </map>
+        </property>  
+    </bean>   
+    
+    <!-- Default Edit Form Accessor:  Simple text entry field -->
+    <bean id="defaultEditFormAccessor" class="com.bac.policyapplication.entity.accessor.DefaultEditFormAccessor" />
+    
+    <!-- Selection List Edit Form Accessor:  Single selection drop down -->
+    <bean id="selectionEditFormAccessor" class="com.bac.policyapplication.entity.accessor.DefaultEditFormAccessor" >
+        <property name="fieldType" value="SELECTION" />         
+    </bean>  
+    
+    <!-- Selection Table Edit Form Accessor:  Selection based on table display -->
+    <bean id="tableEditFormAccessor" class="com.bac.policyapplication.entity.accessor.TableEditFormAccessor" >
+        <property name="extendedRow" value="true"/> 
+        <property name="fieldType" value="TABLE" />         
+    </bean>  
+    
+</beans>
