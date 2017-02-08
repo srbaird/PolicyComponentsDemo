@@ -5,7 +5,7 @@ The [Policy Components with Google Datastore](PolicyComponentsForDataStore) exam
 The webapp is configured to run on [Google Appengine](https://cloud.google.com/appengine/) and may be run locally using the [App Engine SDK](https://cloud.google.com/appengine/docs/java/tools/devserver) which can be easily [downloaded](https://cloud.google.com/appengine/docs/java/download). If this is installed then this repository may be cloned and run as follows.
 
 ```
-{*appengineSDKLocation*}/bin/dev_appserver.sh {*gitDirectory*}/PolicyComponentsDemo/war
+{appengineSDKLocation}/bin/dev_appserver.sh {gitDirectory}/PolicyComponentsDemo/war
 
 ```
 
@@ -17,7 +17,7 @@ A Docker image is also available to run the server.
 docker run -p 8080:8080  username/application-name
 
 ```
-If another local port number is preferrable then sibstitute -p *nnnn*:8080 where *nnnn* is the required local port. Running from the Docker image means that Datastore entities will **not** be persisted between runs.
+If another local port number is preferrable then substitute -p *nnnn*:8080 where *nnnn* is the required local port. Running from the Docker image means that Datastore entities will **not** be persisted between runs.
 
 Alternatively the application is hosted [here](https://quick-composite-90109.appspot.com), though the response times are often very poor.
 ___
