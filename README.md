@@ -14,7 +14,7 @@ When the server has completed startup then the application will be running at ru
 A Docker image is also available to run the server.
 
 ```
-docker run -p 8080:8080  username/application-name
+docker run -p 8080:8080  simonbaird/policy-appengine-demo
 
 ```
 If another local port number is preferrable then substitute -p *nnnn*:8080 where *nnnn* is the required local port. Running from the Docker image means that Datastore entities will **not** be persisted between runs.
@@ -24,7 +24,9 @@ ___
 
 #### Usage 
 
-The example is presented with in an empty frame without the bulk of the application. Right clicking within the table shows the menu and allows a new component to be created.
+The data types and relationship types here are arbitrary. The purpose of the demonstration is to show how the data store can maintain components and associations.
+
+The example is presented with in an empty frame without the remainder of the application. Right clicking within the table shows the menu and allows a new component to be created.
 
  <p align="center">
 <img src="https://github.com/srbaird/PolicyComponentsDemo/blob/master/images/Right click.jpg" alt="Right click menu"  >
